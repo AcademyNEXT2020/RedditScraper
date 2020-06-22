@@ -64,11 +64,21 @@ def multireddit(subreddits, user, limit=5, orderby='score'):
 
 
 if __name__ == '__main__':
+    # GET COMMAND LINE SUBREDDITS
+    if len(sys.argv)==1:
+        print('Please enter one or more subreddits as command line arguments (separated with spaces)')
+        exit()
+    subs = ''
+
+    for sub in sys.argv[1:]:
+        subs = subs + sub + ' '
+
+
     # DEFINE PROGRAM PARAMETERS
     NEW_PAGE_NAME = 'reddit_' + ('_'.join(item for item in str(datetime.now()).split(' '))).replace(':', '_').replace('.', '_') + '.html'
     USER = 'AcademyNEXT2020'
     ORDERBY = 'score'
-    SUBREDDITS = 'Python, MachineLearning'
+    SUBREDDITS = subs
 
     # CALL "MULTIREDDIT" AND RETURN HTML-FORMATTED DATA
     generated_html = multireddit(SUBREDDITS, USER, limit=100, orderby=ORDERBY)
@@ -76,7 +86,7 @@ if __name__ == '__main__':
     # SAVE HTML WEB PAGE (default is current working directory based on user's operating system parameters)
     with open(os.path.join(sys.path[0], NEW_PAGE_NAME), "w+") as f:
         if f.write(generated_html):
-            print('\nSuccessfully wrote ' + NEW_PAGE_NAME + ' to ' + sys.path[0])
+            print('\nSuccessfully wrote ' + NEW_PAGE_NAME + ' to ' + sys.path[0] + '\n')
         else:
             print('Error: could not write file to ' + sys.path[0])
 
